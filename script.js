@@ -13,20 +13,6 @@ function writePassword() {
 
 }
 //My function below
-var chars = [
-  U = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-  L = "abcdefghijklmnopqrstuvwxyz",
-  S = " !@#$%^&*()\"':;()-_=+`~,<.>/?[]{}\\",
-  N = "1234567890"
-];
-var Choices = { //Not technically an array its technically an object
- nums: true,
- lows: true,
- ups: true,
- specs: true,
- span: 4,
-}
-
 function UpperCase(){
   var Uppers = window.prompt("Do you want Uppercase letters in it? Y/N");
  Uppers = Uppers.toUpperCase(); //I believe this may be uneeded due to the .toUpperCase above
@@ -36,13 +22,14 @@ function UpperCase(){
       Uppers = "YES";
       window.alert("Noted");
       console.log(Uppers);
+      return true;
       break;
     } else if(Uppers === "NO" || Uppers === "N"){
       window.alert("Noted");
       Uppers = "NO";
        Choices.ups = false;
        console.log(Uppers);
-       console.log(Choices);
+       return false;
        break;
     }else {
       window.alert("You need to only put Yes or No.");
@@ -52,7 +39,7 @@ function UpperCase(){
     
   }
 
-}
+};
 function LowerCase(){
 
   var Lowers = window.prompt("Do you want Lowercase letters in it? Y/N");
@@ -63,12 +50,14 @@ function LowerCase(){
       Lowers = "YES";
       window.alert("Noted");
       console.log(Lowers);
+       return true;
+      break;
     } else if(Lowers === "NO" || Lowers === "N"){
       window.alert("Noted");
       Lowers = "NO";
        Choices.lows = false;
        console.log(Lowers);
-       console.log(Choices);
+       return false;
        break;
     }else {
       window.alert("You need to only put Yes or No.");
@@ -78,8 +67,7 @@ function LowerCase(){
     
   }
 
-}
-
+};
 function Numbers(){
   let Numberz = window.prompt("Do you want to include numbers in the array? Y/N ");
   Numberz = Numberz.toUpperCase();
@@ -89,12 +77,14 @@ function Numbers(){
        Numberz = "YES";
        window.alert("Noted");
        console.log(Numberz);
+       return true;
+       break;
      } else if(Numberz === "NO" || Numberz === "N"){
        window.alert("Noted");
        Numberz = "NO";
         Choices.nums = false;
         console.log(Numberz);
-        console.log(Choices);
+        return false;
         break;
      }else {
        window.alert("You need to only put Yes or No.");
@@ -104,7 +94,34 @@ function Numbers(){
      
    }
 
-}
+};
+function specials(){
+  var special = window.prompt("Do you want special characters? Yes/No.");
+  special = special.toUpperCase(); //I believe this may be uneeded due to the .toUpperCase above
+ console.log(special);
+  while(special != "YES" && special != "NO"){
+    if(special === "YES"|| special === "Y"){
+      special = "YES";
+      window.alert("Noted");
+      console.log(special);
+       return true;
+      break;
+    } else if(special === "NO" || Lowers === "N"){
+      window.alert("Noted");
+      special = "NO";
+       Choices.specs = false;
+       console.log(special);
+       return false;
+       break;
+    }else {
+      window.alert("You need to only put Yes or No.");
+      specials();
+      break;
+    }
+    
+  }
+
+};
 function range(){
   var length = Number(window.prompt("How long do you want the password? 8-128 characters."));
   //including Number(window.prompt) defaults the reply as a type number. DOPE.
@@ -119,28 +136,49 @@ function range(){
         var length = Number(window.prompt("How long do you want the password? 8-128 characters."));
         if(8 > length > 128){
           window.alert("Thank you. You chose: " + length);
-          Choices.span = length;
           console.log(Choices);
-          break
+          break;
         } else {
           range();
           break;
         } 
       }
-      console.log(Choices);
-    }
-      
-
- 
+      return length;
+    };
 function generatePassword(){
-
+  var password = "";
+  var list = ' ';
+  var indexes = 0;
   UpperCase();
+  if(UpperCase){
+    list += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    indexes++;
+  }
   LowerCase();
-  Numbers();
-  range();
-  console.log(Choices);
-    
+  if(LowerCase){
+    list += 'abcdefghijklmnopqrstuvwxyz';
+    indexes++;
 
+  }
+  Numbers();
+  if(Numbers){
+    list += '1234567890';
+    indexes++
+  }
+  specials();
+  if(specials){
+    list += ' !@#$%^&*()"\':;()-_=+`~,<.>/?[]{}\\';
+    indexes++;
+  }
+  range();
+console.log(list);
+  for(i=0; i<length; i++){
+      password += list.charAt(
+        Math.floor(Math.random() * list.length)
+      );
+    }
+    
+return password;
     }
 
 // Add event listener to generate button
